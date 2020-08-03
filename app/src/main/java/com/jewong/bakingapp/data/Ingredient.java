@@ -1,12 +1,12 @@
-
-package com.jewong.popularmovies;
+package com.jewong.bakingapp.data;
 
 import java.io.Serializable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Ingredient implements Serializable
-{
+@SuppressWarnings("unused")
+public class Ingredient implements Serializable {
 
     @SerializedName("quantity")
     @Expose
@@ -17,30 +17,17 @@ public class Ingredient implements Serializable
     @SerializedName("ingredient")
     @Expose
     private String ingredient;
-    private final static long serialVersionUID = -5857783768585297577L;
 
     public Integer getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public String getMeasure() {
         return measure;
     }
 
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
     public String getIngredient() {
         return ingredient;
-    }
-
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
     }
 
 }

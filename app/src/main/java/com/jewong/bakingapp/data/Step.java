@@ -1,12 +1,12 @@
-
-package com.jewong.popularmovies;
+package com.jewong.bakingapp.data;
 
 import java.io.Serializable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Step implements Serializable
-{
+@SuppressWarnings("unused")
+public class Step implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -23,46 +23,25 @@ public class Step implements Serializable
     @SerializedName("thumbnailURL")
     @Expose
     private String thumbnailURL;
-    private final static long serialVersionUID = -6204661743209398057L;
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getShortDescription() {
         return shortDescription;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getVideoURL() {
         return videoURL;
     }
 
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
-    }
-
     public String getThumbnailURL() {
         return thumbnailURL;
-    }
-
-    public void setThumbnailURL(String thumbnailURL) {
-        this.thumbnailURL = thumbnailURL;
     }
 
 }

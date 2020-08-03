@@ -10,7 +10,7 @@ public class Ingredient implements Serializable {
 
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private Double quantity;
     @SerializedName("measure")
     @Expose
     private String measure;
@@ -18,7 +18,7 @@ public class Ingredient implements Serializable {
     @Expose
     private String ingredient;
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 

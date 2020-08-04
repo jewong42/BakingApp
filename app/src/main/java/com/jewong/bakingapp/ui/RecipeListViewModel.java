@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.jewong.bakingapp.api.VideoAPIClient;
+import com.jewong.bakingapp.data.Step;
 import com.jewong.bakingapp.data.Video;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import retrofit2.Response;
 public class RecipeListViewModel extends ViewModel {
 
     public MutableLiveData<List<Video>> mVideoList = new MutableLiveData();
+    public MutableLiveData<Video> mVideo = new MutableLiveData();
+    public LiveData<List<Step>> mStepList = Transformations.map(mVideo, video -> video.getSteps());
     private VideoAPIClient mVideoAPIClient = new VideoAPIClient();
 
     public void loadVideos() {
@@ -30,5 +33,9 @@ public class RecipeListViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public void onVideoClick(Video video) {
+        mVideo.setValue(video);
     }
 }

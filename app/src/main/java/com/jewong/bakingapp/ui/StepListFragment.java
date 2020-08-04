@@ -1,7 +1,6 @@
 package com.jewong.bakingapp.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,15 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jewong.bakingapp.R;
-import com.jewong.bakingapp.data.Video;
-import com.jewong.bakingapp.databinding.FragmentRecipeListBinding;
-import com.jewong.bakingapp.ui.adapter.VideoAdapter;
+import com.jewong.bakingapp.data.Step;
+import com.jewong.bakingapp.databinding.FragmentStepListBinding;
+import com.jewong.bakingapp.ui.adapter.StepAdapter;
 
 import java.util.List;
 
-public class RecipeListFragment extends Fragment
-        implements VideoAdapter.VideoAdapterCallback {
+public class StepListFragment extends Fragment implements StepAdapter.StepAdapterCallback {
 
-    FragmentRecipeListBinding mBinding;
+    FragmentStepListBinding mBinding;
     RecipeListViewModel mRecipeListViewModel;
 
     @Override
@@ -35,14 +33,13 @@ public class RecipeListFragment extends Fragment
         NavController navController = NavHostFragment.findNavController(this);
         NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
         mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
-        mRecipeListViewModel.loadVideos();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_list, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_step_list, container, false);
         return mBinding.getRoot();
     }
 
@@ -54,23 +51,21 @@ public class RecipeListFragment extends Fragment
     }
 
     private void initializeViews() {
-        mBinding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mBinding.recipeRecyclerView.setAdapter(new VideoAdapter(this));
+        mBinding.stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.stepRecyclerView.setAdapter(new StepAdapter(this));
     }
 
     private void initializeObservers() {
-        mRecipeListViewModel.mVideoList.observe(getViewLifecycleOwner(), this::setRecyclerView);
+        mRecipeListViewModel.mStepList.observe(getViewLifecycleOwner(), this::setRecyclerView);
     }
 
-    private void setRecyclerView(List<Video> dataSet) {
-        VideoAdapter adapter = (VideoAdapter) mBinding.recipeRecyclerView.getAdapter();
+    private void setRecyclerView(List<Step> dataSet) {
+        StepAdapter adapter = (StepAdapter) mBinding.stepRecyclerView.getAdapter();
         if (adapter != null) adapter.setData(dataSet);
     }
 
     @Override
-    public void onVideoClick(Video video) {
-        mRecipeListViewModel.onVideoClick(video);
-        NavHostFragment.findNavController(this).navigate(R.id.action_recipeListFragment_to_stepListFragment);
-    }
+    public void onStepClick(Step step) {
 
+    }
 }

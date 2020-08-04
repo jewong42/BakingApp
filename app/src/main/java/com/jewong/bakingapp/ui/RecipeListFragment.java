@@ -1,7 +1,6 @@
 package com.jewong.bakingapp.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class RecipeListFragment extends Fragment
 
     @Override
     public void onVideoClick(Video video) {
-        mRecipeListViewModel.onVideoClick(video);
+        mRecipeListViewModel.setVideo(video);
         NavHostFragment.findNavController(this).navigate(R.id.action_recipeListFragment_to_stepListFragment);
     }
 

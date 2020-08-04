@@ -6,12 +6,24 @@
     app:startDestination="@id/recipeListFragment">
 
     <fragment
+        android:id="@+id/stepDetailFragment"
+        android:name="com.jewong.bakingapp.ui.StepDetailFragment"
+        android:label="StepDetailFragment">
+        <action
+            android:id="@+id/action_stepDetailFragment_to_stepListFragment"
+            app:destination="@id/stepListFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/stepListFragment"
         android:name="com.jewong.bakingapp.ui.StepListFragment"
         android:label="StepListFragment">
         <action
             android:id="@+id/action_stepListFragment_to_recipeListFragment"
             app:destination="@id/recipeListFragment" />
+        <action
+            android:id="@+id/action_stepListFragment_to_stepDetailFragment"
+            app:destination="@id/stepDetailFragment" />
     </fragment>
 
     <fragment

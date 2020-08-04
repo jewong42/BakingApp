@@ -39,7 +39,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Step step = mDataset.get(position);
-        holder.bind(step, mStepAdapterCallback);
+        holder.bind(step, position, mStepAdapterCallback);
     }
 
     public void setData(List<Step> dataSet) {
@@ -57,15 +57,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
             this.mBinding = binding;
         }
 
-        public void bind(Step step, StepAdapterCallback callback) {
+        public void bind(Step step, int index, StepAdapterCallback callback) {
             mBinding.description.setText(step.getShortDescription());
-            mBinding.description.setOnClickListener(v1 -> callback.onStepClick(step));
+            mBinding.description.setOnClickListener(v1 -> callback.onStepClick(index));
         }
 
     }
 
     public interface StepAdapterCallback {
-        void onStepClick(Step step);
+        void onStepClick(int index);
     }
 
 }

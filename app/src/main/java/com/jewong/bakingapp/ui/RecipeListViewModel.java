@@ -1,5 +1,7 @@
 package com.jewong.bakingapp.ui;
 
+import android.text.TextUtils;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -18,7 +20,9 @@ public class RecipeListViewModel extends ViewModel {
 
     public MutableLiveData<List<Video>> mVideoList = new MutableLiveData();
     public MutableLiveData<Video> mVideo = new MutableLiveData();
+    public MutableLiveData<Integer> mStepIndex = new MutableLiveData();
     public LiveData<List<Step>> mStepList = Transformations.map(mVideo, video -> video.getSteps());
+    public LiveData<Step> mStep = Transformations.map(mStepIndex, index -> mStepList.getValue().get(index));
     private VideoAPIClient mVideoAPIClient = new VideoAPIClient();
 
     public void loadVideos() {
@@ -35,7 +39,30 @@ public class RecipeListViewModel extends ViewModel {
         });
     }
 
-    public void onVideoClick(Video video) {
+    public void setVideo(Video video) {
         mVideo.setValue(video);
+    }
+
+    public void setStepIndex(int index) {
+        mStepIndex.setValue(index);
+    }
+
+    public void adjustStepIndex(int adjustment) {
+        int newIndex = mStepIndex.getValue() + adjustment;
+        if (newIndex >= 0 && newIndex < mStepList.getValue().size()) {
+            mStepIndex.setValue(newIndex);
+        }
+    }
+
+    public boolean hasPreviousStep() {
+        return mStepIndex.getValue() > 0;
+    }
+
+    public boolean hasNextStep() {
+        return mStepIndex.getValue() < mStepList.getValue().size() - 1;
+    }
+
+    public boolean hasVideoURL() {
+        return !TextUtils.isEmpty(mStep.getValue().getVideoURL());
     }
 }

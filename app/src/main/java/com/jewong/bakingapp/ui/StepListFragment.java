@@ -65,7 +65,8 @@ public class StepListFragment extends Fragment implements StepAdapter.StepAdapte
     }
 
     @Override
-    public void onStepClick(Step step) {
-
+    public void onStepClick(int index) {
+        mRecipeListViewModel.setStepIndex(index);
+        NavHostFragment.findNavController(this).navigate(R.id.action_stepListFragment_to_stepDetailFragment);
     }
 }

@@ -48,6 +48,12 @@ public class StepListFragment extends Fragment implements StepAdapter.StepAdapte
     private void initializeViews() {
         mBinding.stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.stepRecyclerView.setAdapter(new StepAdapter(this));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.step_detail_fragment_container, new StepDetailFragment())
+                    .commit();
+        }
     }
 
     private void initializeObservers() {
@@ -62,6 +68,8 @@ public class StepListFragment extends Fragment implements StepAdapter.StepAdapte
     @Override
     public void onStepClick(int index) {
         mRecipeListViewModel.setStepIndex(index);
-        NavHostFragment.findNavController(this).navigate(R.id.action_stepListFragment_to_stepDetailFragment);
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            NavHostFragment.findNavController(this).navigate(R.id.action_stepListFragment_to_stepDetailFragment);
+        }
     }
 }

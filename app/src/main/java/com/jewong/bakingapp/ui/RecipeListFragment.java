@@ -1,6 +1,8 @@
 package com.jewong.bakingapp.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jewong.bakingapp.R;
@@ -48,7 +51,11 @@ public class RecipeListFragment extends Fragment
     }
 
     private void initializeViews() {
-        mBinding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            mBinding.recipeRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        } else {
+            mBinding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         mBinding.recipeRecyclerView.setAdapter(new VideoAdapter(this));
     }
 

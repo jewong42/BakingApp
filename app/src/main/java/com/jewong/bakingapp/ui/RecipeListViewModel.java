@@ -63,6 +63,6 @@ public class RecipeListViewModel extends ViewModel {
     }
 
     public boolean hasVideoURL() {
-        return !TextUtils.isEmpty(mStep.getValue().getVideoURL());
+        return mStep.getValue() != null && !TextUtils.isEmpty(mStep.getValue().getVideoURL());
     }
 }

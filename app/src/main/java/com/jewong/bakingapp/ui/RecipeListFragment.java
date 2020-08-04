@@ -29,18 +29,13 @@ public class RecipeListFragment extends Fragment
     RecipeListViewModel mRecipeListViewModel;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         NavController navController = NavHostFragment.findNavController(this);
         NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
         mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
         mRecipeListViewModel.loadVideos();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_list, container, false);
         return mBinding.getRoot();
     }

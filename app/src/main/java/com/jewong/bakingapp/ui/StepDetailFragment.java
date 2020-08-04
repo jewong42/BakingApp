@@ -15,14 +15,12 @@ import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.jewong.bakingapp.R;
-import com.jewong.bakingapp.data.Step;
 import com.jewong.bakingapp.databinding.FragmentStepDetailBinding;
 
 public class StepDetailFragment extends Fragment {
@@ -32,17 +30,12 @@ public class StepDetailFragment extends Fragment {
     SimpleExoPlayer player;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        NavController navController = NavHostFragment.findNavController(this);
-        NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
-        mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        NavController navController = NavHostFragment.findNavController(this);
+        NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
+        mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_step_detail, container, false);
         return mBinding.getRoot();
     }
@@ -55,14 +48,14 @@ public class StepDetailFragment extends Fragment {
 
     @Override
     public void onStop() {
-        if (player == null) initializeExoplayer();
+        releasePlayer();
         super.onStop();
     }
 
     @Override
     public void onStart() {
-        releasePlayer();
         super.onStart();
+        if (mRecipeListViewModel.hasVideoURL() && player == null) initializeExoplayer();
     }
 
     private void initializeView() {
@@ -75,6 +68,7 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void initializeExoplayer() {
+        releasePlayer();
         if (getContext() == null) return;
         if (mRecipeListViewModel.hasVideoURL()) {
             mBinding.playerView.setVisibility(View.VISIBLE);
@@ -108,7 +102,6 @@ public class StepDetailFragment extends Fragment {
         mBinding.nextButton.setOnClickListener(v -> mRecipeListViewModel.adjustStepIndex(1));
         mBinding.previousButton.setOnClickListener(v -> mRecipeListViewModel.adjustStepIndex(-1));
         mRecipeListViewModel.mStep.observe(getViewLifecycleOwner(), step -> {
-            releasePlayer();
             initializeView();
             initializeExoplayer();
         });

@@ -28,17 +28,12 @@ public class StepListFragment extends Fragment implements StepAdapter.StepAdapte
     RecipeListViewModel mRecipeListViewModel;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        NavController navController = NavHostFragment.findNavController(this);
-        NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
-        mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        NavController navController = NavHostFragment.findNavController(this);
+        NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
+        mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_step_list, container, false);
         return mBinding.getRoot();
     }

@@ -10,6 +10,7 @@
         android:name="com.jewong.bakingapp.ui.StepDetailFragment"
         android:label="@string/steps">
         <action
+            app:enterAnim="@anim/nav_default_enter_anim"
             android:id="@+id/action_stepDetailFragment_to_stepListFragment"
             app:destination="@id/stepListFragment" />
     </fragment>
@@ -19,9 +20,11 @@
         android:name="com.jewong.bakingapp.ui.StepListFragment"
         android:label="@string/steps">
         <action
+            app:enterAnim="@anim/nav_default_enter_anim"
             android:id="@+id/action_stepListFragment_to_recipeListFragment"
             app:destination="@id/recipeListFragment" />
         <action
+            app:enterAnim="@anim/nav_default_enter_anim"
             android:id="@+id/action_stepListFragment_to_stepDetailFragment"
             app:destination="@id/stepDetailFragment" />
     </fragment>
@@ -31,6 +34,7 @@
         android:name="com.jewong.bakingapp.ui.RecipeListFragment"
         android:label="@string/recipes">
         <action
+            app:enterAnim="@anim/nav_default_enter_anim"
             android:id="@+id/action_recipeListFragment_to_stepListFragment"
             app:destination="@id/stepListFragment" />
     </fragment>

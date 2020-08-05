@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/stepDetailFragment"
         android:name="com.jewong.bakingapp.ui.StepDetailFragment"
-        android:label="StepDetailFragment">
+        android:label="@string/steps">
         <action
             android:id="@+id/action_stepDetailFragment_to_stepListFragment"
             app:destination="@id/stepListFragment" />
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/stepListFragment"
         android:name="com.jewong.bakingapp.ui.StepListFragment"
-        android:label="StepListFragment">
+        android:label="@string/steps">
         <action
             android:id="@+id/action_stepListFragment_to_recipeListFragment"
             app:destination="@id/recipeListFragment" />
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/recipeListFragment"
         android:name="com.jewong.bakingapp.ui.RecipeListFragment"
-        android:label="RecipeListFragment">
+        android:label="@string/recipes">
         <action
             android:id="@+id/action_recipeListFragment_to_stepListFragment"
             app:destination="@id/stepListFragment" />

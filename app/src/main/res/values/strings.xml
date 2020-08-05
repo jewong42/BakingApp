@@ -10,5 +10,7 @@
     <string name="makes_x_servings">Makes %s servings</string>
     <string name="next">Next</string>
     <string name="previous">previous</string>
+    <string name="recipes">Recipes</string>
+    <string name="steps">Steps</string>
 
 </resources>

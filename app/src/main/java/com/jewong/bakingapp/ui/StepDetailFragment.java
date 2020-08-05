@@ -55,10 +55,11 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (mRecipeListViewModel.hasVideoURL() && player == null) initializeExoplayer();
+        if (player == null) initializeExoplayer();
     }
 
     private void initializeView() {
+        if (mRecipeListViewModel.mStep.getValue() == null) return;
         int nextVisibility = mRecipeListViewModel.hasNextStep() ? View.VISIBLE : View.GONE;
         int previousVisibility = mRecipeListViewModel.hasPreviousStep() ? View.VISIBLE : View.GONE;
         mBinding.title.setText(mRecipeListViewModel.mStep.getValue().getShortDescription());
@@ -70,15 +71,17 @@ public class StepDetailFragment extends Fragment {
     private void initializeExoplayer() {
         releasePlayer();
         if (getContext() == null) return;
-        if (mRecipeListViewModel.hasVideoURL()) {
+        if (mRecipeListViewModel.mStep.getValue() != null) {
             mBinding.playerView.setVisibility(View.VISIBLE);
             player = new SimpleExoPlayer.Builder(getContext()).build();
             mBinding.playerView.setPlayer(player);
             Uri uri = Uri.parse(mRecipeListViewModel.mStep.getValue().getVideoURL());
             MediaSource mediaSource = buildMediaSource(uri);
-            player.setPlayWhenReady(true);
-            player.seekTo(0, 0);
-            player.prepare(mediaSource, false, false);
+            if (mediaSource != null) {
+                player.setPlayWhenReady(true);
+                player.seekTo(0, 0);
+                player.prepare(mediaSource, false, false);
+            }
         } else {
             mBinding.playerView.setVisibility(View.GONE);
         }
@@ -92,15 +95,20 @@ public class StepDetailFragment extends Fragment {
     }
 
     private MediaSource buildMediaSource(Uri uri) {
-        DataSource.Factory dataSourceFactory =
-                new DefaultDataSourceFactory(getContext(), "exoplayer-codelab");
-        return new ProgressiveMediaSource.Factory(dataSourceFactory)
+        if (getContext() == null) return null;
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
+                getContext(),
+                this.getClass().getSimpleName());
+        return new ProgressiveMediaSource
+                .Factory(dataSourceFactory)
                 .createMediaSource(uri);
     }
 
     private void initializeObservers() {
-        mBinding.nextButton.setOnClickListener(v -> mRecipeListViewModel.adjustStepIndex(1));
-        mBinding.previousButton.setOnClickListener(v -> mRecipeListViewModel.adjustStepIndex(-1));
+        mBinding.nextButton.setOnClickListener(v ->
+                mRecipeListViewModel.adjustStepIndex(1));
+        mBinding.previousButton.setOnClickListener(v ->
+                mRecipeListViewModel.adjustStepIndex(-1));
         mRecipeListViewModel.mStep.observe(getViewLifecycleOwner(), step -> {
             initializeView();
             initializeExoplayer();

@@ -1,8 +1,6 @@
 package com.jewong.bakingapp.ui;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +36,8 @@ public class RecipeListFragment extends Fragment
         NavController navController = NavHostFragment.findNavController(this);
         NavBackStackEntry backStackEntry = navController.getBackStackEntry(R.id.nav_graph);
         mRecipeListViewModel = new ViewModelProvider(backStackEntry).get(RecipeListViewModel.class);
-        mRecipeListViewModel.loadVideos();
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_list, container, false);
+        mRecipeListViewModel.loadVideos();
         return mBinding.getRoot();
     }
 

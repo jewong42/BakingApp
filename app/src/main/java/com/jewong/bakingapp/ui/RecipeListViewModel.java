@@ -1,7 +1,6 @@
 package com.jewong.bakingapp.ui;
 
-import android.text.TextUtils;
-
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -18,22 +17,22 @@ import retrofit2.Response;
 
 public class RecipeListViewModel extends ViewModel {
 
-    public MutableLiveData<List<Video>> mVideoList = new MutableLiveData();
-    public MutableLiveData<Video> mVideo = new MutableLiveData();
-    public MutableLiveData<Integer> mStepIndex = new MutableLiveData();
-    public LiveData<List<Step>> mStepList = Transformations.map(mVideo, video -> video.getSteps());
-    public LiveData<Step> mStep = Transformations.map(mStepIndex, index -> mStepList.getValue().get(index));
+    public MutableLiveData<List<Video>> mVideoList = new MutableLiveData<>();
+    public MutableLiveData<Video> mVideo = new MutableLiveData<>();
+    public MutableLiveData<Integer> mStepIndex = new MutableLiveData<>();
+    public LiveData<List<Step>> mStepList = Transformations.map(mVideo, Video::getSteps);
+    public LiveData<Step> mStep = Transformations.map(mStepIndex, this::getStep);
     private VideoAPIClient mVideoAPIClient = new VideoAPIClient();
 
     public void loadVideos() {
         mVideoAPIClient.getVideos(new retrofit2.Callback<List<Video>>() {
             @Override
-            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
+            public void onResponse(@NonNull Call<List<Video>> call, @NonNull Response<List<Video>> response) {
                 mVideoList.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<Video>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Video>> call, @NonNull Throwable t) {
 
             }
         });
@@ -48,9 +47,11 @@ public class RecipeListViewModel extends ViewModel {
     }
 
     public void adjustStepIndex(int adjustment) {
-        int newIndex = mStepIndex.getValue() + adjustment;
-        if (newIndex >= 0 && newIndex < mStepList.getValue().size()) {
-            mStepIndex.setValue(newIndex);
+        if (mStepIndex.getValue() != null && mStepList.getValue() != null) {
+            int newIndex = mStepIndex.getValue() + adjustment;
+            if (newIndex >= 0 && newIndex < mStepList.getValue().size()) {
+                mStepIndex.setValue(newIndex);
+            }
         }
     }
 
@@ -58,15 +59,24 @@ public class RecipeListViewModel extends ViewModel {
         mStepIndex.setValue(0);
     }
 
+    public Step getStep(int index) {
+        if (mStepList.getValue() != null) {
+            return mStepList.getValue().get(index);
+        }
+        return null;
+    }
+
     public boolean hasPreviousStep() {
-        return mStepIndex.getValue() > 0;
+        if (mStepIndex.getValue() != null) {
+            return mStepIndex.getValue() > 0;
+        }
+        return false;
     }
 
     public boolean hasNextStep() {
-        return mStepIndex.getValue() < mStepList.getValue().size() - 1;
-    }
-
-    public boolean hasVideoURL() {
-        return mStep.getValue() != null && !TextUtils.isEmpty(mStep.getValue().getVideoURL());
+        if (mStepIndex.getValue() != null && mStepList.getValue() != null) {
+            return mStepIndex.getValue() < mStepList.getValue().size() - 1;
+        }
+        return false;
     }
 }

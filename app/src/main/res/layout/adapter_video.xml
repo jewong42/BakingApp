@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textColor="@color/colorAccentDark"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/mock_value" />
 

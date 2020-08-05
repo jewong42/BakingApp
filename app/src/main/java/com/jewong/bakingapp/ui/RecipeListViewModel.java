@@ -1,5 +1,7 @@
 package com.jewong.bakingapp.ui;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -76,6 +78,13 @@ public class RecipeListViewModel extends ViewModel {
     public boolean hasNextStep() {
         if (mStepIndex.getValue() != null && mStepList.getValue() != null) {
             return mStepIndex.getValue() < mStepList.getValue().size() - 1;
+        }
+        return false;
+    }
+
+    public boolean hasVideo() {
+        if (mStep.getValue() != null) {
+            return !TextUtils.isEmpty(mStep.getValue().getVideoURL());
         }
         return false;
     }

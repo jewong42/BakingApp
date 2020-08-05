@@ -68,11 +68,11 @@ public class StepDetailFragment extends Fragment {
         mBinding.nextButton.setVisibility(nextVisibility);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initializeExoplayer() {
         releasePlayer();
         if (getContext() == null) return;
-        if (mRecipeListViewModel.mStep.getValue() != null) {
-            mBinding.playerView.setVisibility(View.VISIBLE);
+        if (mRecipeListViewModel.hasVideo()) {
             player = new SimpleExoPlayer.Builder(getContext()).build();
             mBinding.playerView.setPlayer(player);
             Uri uri = Uri.parse(mRecipeListViewModel.mStep.getValue().getVideoURL());
@@ -82,6 +82,7 @@ public class StepDetailFragment extends Fragment {
                 player.seekTo(0, 0);
                 player.prepare(mediaSource, false, false);
             }
+            mBinding.playerView.setVisibility(View.VISIBLE);
         } else {
             mBinding.playerView.setVisibility(View.GONE);
         }

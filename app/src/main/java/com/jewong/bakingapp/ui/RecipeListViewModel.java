@@ -54,6 +54,10 @@ public class RecipeListViewModel extends ViewModel {
         }
     }
 
+    public void defaultStep() {
+        mStepIndex.setValue(0);
+    }
+
     public boolean hasPreviousStep() {
         return mStepIndex.getValue() > 0;
     }

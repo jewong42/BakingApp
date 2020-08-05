@@ -13,5 +13,6 @@
     <string name="previous">Previous</string>
     <string name="recipes">Recipes</string>
     <string name="steps">Steps</string>
+    <string name="recipe_header">Tap on a recipe to view its steps.</string>
 
 </resources>

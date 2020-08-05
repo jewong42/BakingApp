@@ -53,6 +53,7 @@ public class StepListFragment extends Fragment implements StepAdapter.StepAdapte
                     .beginTransaction()
                     .replace(R.id.step_detail_fragment_container, new StepDetailFragment())
                     .commit();
+            mRecipeListViewModel.defaultStep();
         }
     }
 

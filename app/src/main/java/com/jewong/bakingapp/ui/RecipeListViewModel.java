@@ -35,7 +35,7 @@ public class RecipeListViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<List<Video>> call, @NonNull Throwable t) {
-
+                mVideoList.setValue(null);
             }
         });
     }

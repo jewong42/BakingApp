@@ -59,11 +59,17 @@ public class RecipeListFragment extends Fragment
 
     private void initializeObservers() {
         mRecipeListViewModel.mVideoList.observe(getViewLifecycleOwner(), this::setRecyclerView);
+        mBinding.errorLayout.retryButton.setOnClickListener(v -> mRecipeListViewModel.loadVideos());
     }
 
     private void setRecyclerView(List<Video> dataSet) {
         VideoAdapter adapter = (VideoAdapter) mBinding.recipeRecyclerView.getAdapter();
-        if (adapter != null) adapter.setData(dataSet);
+        if (adapter != null && dataSet != null) {
+            mBinding.errorLayout.container.setVisibility(View.GONE);
+            adapter.setData(dataSet);
+        } else {
+            mBinding.errorLayout.container.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

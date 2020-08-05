@@ -8,8 +8,9 @@
     <string name="x_ingredients">%s ingredients</string>
     <string name="x_steps">%s steps</string>
     <string name="makes_x_servings">Makes %s servings</string>
+
     <string name="next">Next</string>
-    <string name="previous">previous</string>
+    <string name="previous">Previous</string>
     <string name="recipes">Recipes</string>
     <string name="steps">Steps</string>
 

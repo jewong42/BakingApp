@@ -17,6 +17,9 @@ public interface FavoritesDao {
     @Query("SELECT * FROM favorites WHERE databaseId == 0")
     LiveData<Video> loadVideo();
 
+    @Query("SELECT * FROM favorites WHERE databaseId == 0")
+    Video loadVideoValue();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertVideo(Video video);
 

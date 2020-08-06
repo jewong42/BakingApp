@@ -21,4 +21,7 @@
 
     <string name="favorite_icon_desc">favorite icon</string>
 
+    <string name="widget_error_title">You do not have a recipe pinned</string>
+    <string name="widget_error_body">Click here to get started</string>
+
 </resources>

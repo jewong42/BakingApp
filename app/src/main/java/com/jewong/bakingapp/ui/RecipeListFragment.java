@@ -82,6 +82,7 @@ public class RecipeListFragment extends Fragment
     @Override
     public void onFavorite(Video video) {
         mRecipeListViewModel.setFavorite(video);
+        if (getActivity() != null) ((MainActivity) getActivity()).updateWidget();
     }
 
 }

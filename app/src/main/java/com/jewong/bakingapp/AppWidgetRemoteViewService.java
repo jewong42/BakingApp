@@ -6,7 +6,10 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.jewong.bakingapp.data.Ingredient;
+import com.jewong.bakingapp.data.Video;
+import com.jewong.bakingapp.model.AppDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppWidgetRemoteViewService extends RemoteViewsService {
@@ -23,11 +26,13 @@ public class AppWidgetRemoteViewService extends RemoteViewsService {
     public static class AppWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         private Context mContext;
-        private List<Ingredient> mIngredientList;
+        private List<Ingredient> mIngredientList = new ArrayList<>();
+        private AppDatabase mAppDatabase;
 
         public AppWidgetRemoteViewsFactory(Context context) {
             this.mContext = context;
-        }
+            this.mAppDatabase = AppDatabase.getInstance(mContext);
+    }
 
         @Override
         public void onCreate() {
@@ -39,7 +44,11 @@ public class AppWidgetRemoteViewService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-
+            Video video = mAppDatabase.favoritesDao().loadVideoValue();
+            if (video != null) {
+                mIngredientList.clear();
+                mIngredientList.addAll(video.getIngredients());
+            }
         }
 
         @Override
@@ -53,7 +62,7 @@ public class AppWidgetRemoteViewService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.app_widget_list_item);
+            RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
             Ingredient ingredient = mIngredientList.get(position);
             String string = String.format("%s %s of %s",
                     ingredient.getQuantity(),

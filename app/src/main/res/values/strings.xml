@@ -19,4 +19,6 @@
     <string name="error_header">Sorry, I was unable to load the recipes.</string>
     <string name="error_body">There seems to be an issue loading the recipes. Please make sure you\'re connected to the internet and click the button below to try again.</string>
 
+    <string name="favorite_icon_desc">favorite icon</string>
+
 </resources>

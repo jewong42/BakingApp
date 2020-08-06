@@ -28,6 +28,7 @@ public class RecipeListFragment extends Fragment
 
     FragmentRecipeListBinding mBinding;
     RecipeListViewModel mRecipeListViewModel;
+    VideoAdapter mVideoAdapter = new VideoAdapter(this);
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,19 +55,19 @@ public class RecipeListFragment extends Fragment
         } else {
             mBinding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        mBinding.recipeRecyclerView.setAdapter(new VideoAdapter(this));
+        mBinding.recipeRecyclerView.setAdapter(mVideoAdapter);
     }
 
     private void initializeObservers() {
         mRecipeListViewModel.mVideoList.observe(getViewLifecycleOwner(), this::setRecyclerView);
         mBinding.errorLayout.retryButton.setOnClickListener(v -> mRecipeListViewModel.loadVideos());
+        mRecipeListViewModel.mFavoriteVideo.observe(getViewLifecycleOwner(), v -> mVideoAdapter.setFavoriteVideo(v));
     }
 
     private void setRecyclerView(List<Video> dataSet) {
-        VideoAdapter adapter = (VideoAdapter) mBinding.recipeRecyclerView.getAdapter();
-        if (adapter != null && dataSet != null) {
+        if (mVideoAdapter != null && dataSet != null) {
             mBinding.errorLayout.container.setVisibility(View.GONE);
-            adapter.setData(dataSet);
+            mVideoAdapter.setData(dataSet);
         } else {
             mBinding.errorLayout.container.setVisibility(View.VISIBLE);
         }
@@ -76,6 +77,11 @@ public class RecipeListFragment extends Fragment
     public void onVideoClick(Video video) {
         mRecipeListViewModel.setVideo(video);
         NavHostFragment.findNavController(this).navigate(R.id.action_recipeListFragment_to_stepListFragment);
+    }
+
+    @Override
+    public void onFavorite(Video video) {
+        mRecipeListViewModel.setFavorite(video);
     }
 
 }

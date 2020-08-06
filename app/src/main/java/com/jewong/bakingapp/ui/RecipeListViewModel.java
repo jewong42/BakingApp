@@ -1,30 +1,41 @@
 package com.jewong.bakingapp.ui;
 
+import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 
 import com.jewong.bakingapp.api.VideoAPIClient;
+import com.jewong.bakingapp.common.AppExecutors;
 import com.jewong.bakingapp.data.Step;
 import com.jewong.bakingapp.data.Video;
+import com.jewong.bakingapp.model.AppDatabase;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class RecipeListViewModel extends ViewModel {
+public class RecipeListViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<Video>> mVideoList = new MutableLiveData<>();
     public MutableLiveData<Video> mVideo = new MutableLiveData<>();
+    public LiveData<Video> mFavoriteVideo;
     public MutableLiveData<Integer> mStepIndex = new MutableLiveData<>();
     public LiveData<List<Step>> mStepList = Transformations.map(mVideo, Video::getSteps);
     public LiveData<Step> mStep = Transformations.map(mStepIndex, this::getStep);
     private VideoAPIClient mVideoAPIClient = new VideoAPIClient();
+    AppDatabase mDatabase;
+
+    public RecipeListViewModel(@NonNull Application application) {
+        super(application);
+        mDatabase = AppDatabase.getInstance(application);
+        mFavoriteVideo = mDatabase.favoritesDao().loadVideo();
+    }
 
     public void loadVideos() {
         mVideoAPIClient.getVideos(new retrofit2.Callback<List<Video>>() {
@@ -42,6 +53,16 @@ public class RecipeListViewModel extends ViewModel {
 
     public void setVideo(Video video) {
         mVideo.setValue(video);
+    }
+
+    public void setFavorite(Video video) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (mFavoriteVideo.getValue() != null && mFavoriteVideo.getValue().getId().equals(video.getId())) {
+                mDatabase.favoritesDao().deleteVideo(video);
+            } else {
+                mDatabase.favoritesDao().insertVideo(video);
+            }
+        });
     }
 
     public void setStepIndex(int index) {
@@ -88,4 +109,5 @@ public class RecipeListViewModel extends ViewModel {
         }
         return false;
     }
+
 }

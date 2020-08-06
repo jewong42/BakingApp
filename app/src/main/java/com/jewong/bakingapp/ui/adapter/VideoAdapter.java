@@ -1,7 +1,6 @@
 package com.jewong.bakingapp.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public void setFavoriteVideo(Video video) {
-        Log.d("Jerry", "" + (video == null));
         mFavoriteVideo = video;
         notifyDataSetChanged();
     }
